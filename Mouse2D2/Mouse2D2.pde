@@ -30,6 +30,7 @@ void draw() {
   background(51); 
   //fill(180, 204);
   //rect(newx, height/2, newy/2, newy/2);
+  // super cool new comment
   //fill(255, 204);
   int inverseX = width-newx;
   int inverseY = height-newy;
