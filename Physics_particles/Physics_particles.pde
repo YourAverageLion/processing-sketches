@@ -1,28 +1,38 @@
 void setup() {
   size(640, 360);
   
-  for(int i = 0; i<particles.length; i++){
-    particles[i] = new Particle();
+  for(int i = 0; i<particles.size(); i++){
+    //particles[i] = new Particle();
   }
   
 }
+
+void mousePressed() {
+    Particle p = new Particle();
+    p.particle_x = mouseX;
+    p.particle_y = mouseY;
+    particles.add(p);
+}
+
+ArrayList<Particle> particles = new ArrayList<Particle>();
 
 float particle_x = width/2;
 float particle_y = height/2;
 float velocity_x = 30;
 float velocity_y = 30;
-Particle[] particles = new Particle[100];
+//Particle[] particles = new Particle[100];
 
 void draw() {
   background(150,200,255);
   float dt = 0.016;
  
-  for(int i = 0; i<particles.length; i++){
-    particles[i].step(dt);
-    particles[i].show();
-    var p1 = particles[i];
-    for(int j = 0; j<particles.length; j++){
-      var p2 = particles[j];
+  for(int i = 0; i<particles.size(); i++){
+    
+    
+    particles.get(i).show();
+    var p1 = particles.get(i);
+    for(int j = 0; j<particles.size(); j++){
+      var p2 = particles.get(j);
       
       if(j!=i){
         float dist_x = p1.particle_x - p2.particle_x;
@@ -35,10 +45,24 @@ void draw() {
           float v2x = p2.velocity_x;
           float v2y = p2.velocity_y;
           
-          p1.velocity_x = dist_x*40;
-          p1.velocity_y = dist_y*40;
-          p2.velocity_x = -dist_x*40;
-          p2.velocity_y = -dist_x*40;
+          if(false) {
+            p1.velocity_x = dist_x*40;
+            p1.velocity_y = dist_y*40;
+            p2.velocity_x = -dist_x*40;
+            p2.velocity_y = -dist_x*40;
+          } else {
+            if (true) {
+              float v_avg_x = v1x/2+v2x/2;
+              float v_avg_y = v1y/2+v2y/2;
+              p1.velocity_x = v_avg_x;
+              p2.velocity_x = v_avg_x;
+              p2.velocity_y = v_avg_y;
+              p1.velocity_y = v_avg_y;
+            } else {
+            
+            }
+          }
+          
         }
       }
       
@@ -49,6 +73,7 @@ void draw() {
       
       
     }
+    particles.get(i).step(dt);
   }
   
   
@@ -73,9 +98,26 @@ class Particle {
     circle(particle_x, particle_y, 5.0);
   }
   
+  float velocity(){
+    return (float)Math.sqrt(velocity_y*velocity_y + velocity_x*velocity_x);
+  }
+  
   void step(float dt) {
+    
     particle_x += velocity_x * dt;
     particle_y += velocity_y * dt;
+    
+    float dirx = mouseX - particle_x;
+    float diry = mouseY - particle_y;
+    
+    float dirlen = (float)Math.sqrt(dirx*dirx + diry*diry);
+    dirx/=dirlen;
+    diry/=dirlen;
+    
+    velocity_x += (dirx*dt*1000)/dirlen;
+    velocity_y += (diry*dt*1000)/dirlen;
+    
+    
     
     if(particle_x>=width || particle_x<=0){
       velocity_x*=-1;
