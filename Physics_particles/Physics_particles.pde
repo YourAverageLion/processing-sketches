@@ -1,5 +1,5 @@
 void setup() {
-  size(640, 360);
+  size(640, 360); //<>//
   
   for(int i = 0; i<particles.size(); i++){
     //particles[i] = new Particle();
@@ -34,6 +34,7 @@ void draw() {
     for(int j = 0; j<particles.size(); j++){
       var p2 = particles.get(j);
       
+//particle collisions
       if(j!=i){
         float dist_x = p1.particle_x - p2.particle_x;
         float dist_y = p1.particle_y - p2.particle_y;
@@ -44,23 +45,37 @@ void draw() {
           float v1y = p1.velocity_y;
           float v2x = p2.velocity_x;
           float v2y = p2.velocity_y;
+          float totp1 =(float)Math.sqrt(p1.velocity_x*p1.velocity_x+p1.velocity_y*p1.velocity_y);
+          float totp2 =(float)Math.sqrt(p2.velocity_x*p2.velocity_x+p2.velocity_y*p2.velocity_y);
           
-          if(false) {
+          if(totp1+totp2>170) {
             p1.velocity_x = dist_x*40;
             p1.velocity_y = dist_y*40;
             p2.velocity_x = -dist_x*40;
             p2.velocity_y = -dist_x*40;
           } else {
-            if (true) {
+            if (totp1+totp2<170) {
+              if(v1x/2+v2x/2 != 0 && v1y/2+v2y/2 != 0){
               float v_avg_x = v1x/2+v2x/2;
               float v_avg_y = v1y/2+v2y/2;
               p1.velocity_x = v_avg_x;
               p2.velocity_x = v_avg_x;
               p2.velocity_y = v_avg_y;
               p1.velocity_y = v_avg_y;
-            } else {
-            
+              if(v1x/2+v2x/2 == 0 || (p1.particle_x >= width || p1.particle_x <= 0)){
+                p2.velocity_x = p1.velocity_x;
+              }
+              if(v1x/2+v2x/2 == 0 || (p1.particle_y >= height || p1.particle_y <= 0)){
+                p2.velocity_y = p1.velocity_y;
+              }
+              if(v1x/2+v2x/2 == 0 || (p2.particle_x >= width || p2.particle_x <= 0)){
+                p1.velocity_x = p2.velocity_x;
+              }
+              if(v1x/2+v2x/2 == 0 || (p2.particle_y >= height || p2.particle_y <= 0)){
+                p1.velocity_y = p2.velocity_y;
+              }
             }
+          }
           }
           
         }
@@ -118,12 +133,13 @@ class Particle {
     velocity_y += (diry*dt*1000)/dirlen;
     
     
-    
+    //particles bouncing off of walls
     if(particle_x>=width || particle_x<=0){
       velocity_x*=-1;
     }
     if(particle_y>=height || particle_y<=0){
       velocity_y*=-1;
+
     }
   }
 
