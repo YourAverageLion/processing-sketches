@@ -20,11 +20,23 @@ float particle_x = width/2;
 float particle_y = height/2;
 float velocity_x = 30;
 float velocity_y = 30;
+float bond_limit = 170;
 //Particle[] particles = new Particle[100];
 
 void draw() {
   background(150,200,255);
   float dt = 0.016;
+  
+  text(bond_limit,10, 20);
+  
+  if (keyPressed) {
+    if (key == DOWN){
+      bond_limit-=1;
+    }
+    if (key == UP){
+      bond_limit += 1;
+    }
+  }
  
   for(int i = 0; i<particles.size(); i++){
     
@@ -48,13 +60,13 @@ void draw() {
           float totp1 =(float)Math.sqrt(p1.velocity_x*p1.velocity_x+p1.velocity_y*p1.velocity_y);
           float totp2 =(float)Math.sqrt(p2.velocity_x*p2.velocity_x+p2.velocity_y*p2.velocity_y);
           
-          if(totp1+totp2>170) {
+          if(totp1+totp2>bond_limit) {
             p1.velocity_x = dist_x*40;
             p1.velocity_y = dist_y*40;
             p2.velocity_x = -dist_x*40;
             p2.velocity_y = -dist_x*40;
           } else {
-            if (totp1+totp2<170) {
+            if (totp1+totp2<bond_limit) {
               if(v1x/2+v2x/2 != 0 && v1y/2+v2y/2 != 0){
               float v_avg_x = v1x/2+v2x/2;
               float v_avg_y = v1y/2+v2y/2;
@@ -119,6 +131,7 @@ class Particle {
   
   void step(float dt) {
     
+    
     particle_x += velocity_x * dt;
     particle_y += velocity_y * dt;
     
@@ -134,12 +147,21 @@ class Particle {
     
     
     //particles bouncing off of walls
-    if(particle_x>=width || particle_x<=0){
-      velocity_x*=-1;
+    if(particle_x>=width){
+      velocity_x =-Math.abs(velocity_x);
     }
-    if(particle_y>=height || particle_y<=0){
-      velocity_y*=-1;
-
+    else if (particle_x<=0){
+      velocity_x = Math.abs(velocity_x);
+    }
+    
+    if(particle_y>=height){
+      velocity_y =-Math.abs(velocity_y);
+    }
+    else if (particle_y<=0){
+      velocity_y = Math.abs(velocity_y);
+    
+  
+    
     }
   }
 
