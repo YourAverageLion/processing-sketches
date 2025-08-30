@@ -40,6 +40,9 @@ ArrayList<Point> points = new ArrayList<>();
 
 void draw(){
   background(230);
+  fill(0);
+  text(mouseX, 80, 80);
+  
   noFill();
   
   //beginShape();
@@ -50,6 +53,20 @@ void draw(){
     stroke(p.y+100.0, p.x/5 , 30);
     //vertex(p.x,p.y);
     line(p.x, p.y, p2.x, p2.y);
+    if (p.x == mouseX){
+      float y = graphfunction(new Point(p.x + 3, 0));
+      
+      PVector v1, v2,s;
+      v1 = new PVector(p.x, p.y);
+      v2 = new PVector(p2.x+5, graphfunction(new Point(p.x + 5, 0)));
+      s = v2.sub(v1).normalize();
+      line(p.x, p.y, p.x+s.x*100, p.y+s.y*100);
+      line(p.x, p.y, p.x+s.x*-100, p.y+s.y*-100);
+      text(0, 100,100);
+      //line(p.x, p.y, ((p2.x-p.x)*100)+p.x, ((y-p.y)*100)+p.y);
+      //line(p.x, p.y, ((p.x-p2.x)*100)+p.x, ((p.y-y)*100)+p.y);
+      
+    }
     
     
     points.get(i).step(50.0/frameRate);
