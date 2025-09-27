@@ -1,8 +1,17 @@
 PImage logo;
-float x = 0;
-float y = 0;
-float xv = 160;
-float yv = 160;
+
+
+float[] speed = {160.0,-160.0};
+
+float x = random(0, 1600-126);
+float y = random(0,900-66);
+float xv = speed[(int)random(0,2)];
+float yv = speed[(int)random(0,2)];
+//ArrayList<Wall> walls = new ArrayList<>();
+Wall wall = new Wall(0,0, 150, 5);
+
+
+
 
 class Wall {
 
@@ -21,6 +30,17 @@ class Wall {
   public void draw() {
     rect(x,y,wallwidth,wallheight);
   }
+  
+  public void isColliding(float cx, float cy) {
+    
+    // xforloop
+    for (float ix = cx ; ix < cx+126 ; ix += 1.0) {
+    }
+    for (float ix = cy ; ix < cy+66 ; ix += 1.0) {
+      
+    }
+  }
+  
 
 }
 
@@ -54,9 +74,21 @@ void draw(){
     yv = abs(yv);
     tint(random(255),random(255),random(255));
   }
+  wall.draw();
+  
+
   
   //Wall w = new Wall(500,500,3,126);
   //w.draw();
   
 
 }
+
+void mousePressed() {
+    if (mouseButton == LEFT){
+      wall = new Wall(mouseX-2.5, mouseY-75, 150, 5);
+    }
+    if (mouseButton == RIGHT){
+      wall = new Wall(mouseX-75, mouseY-2.5, 5, 150);
+    }
+  }
