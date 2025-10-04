@@ -75,6 +75,27 @@ void draw(){
     tint(random(255),random(255),random(255));
   }
   wall.draw();
+  text(xv, 80, 80);
+  float i = yv;
+  float a = xv;
+  if (wall.wallwidth>wall.wallheight && x>wall.x-wall.wallwidth/2-63 && x<wall.x+wall.wallwidth/2+63 && y>wall.y-wall.wallheight/2-55 && y<wall.y+wall.wallheight/2){
+    if(i>=0){
+      yv=-abs(yv);
+    }
+    if(i<=0){
+      yv=abs(yv);
+    }
+    tint(random(255),random(255),random(255));
+  }
+  if (wall.wallheight>wall.wallwidth && x>wall.x-wall.wallwidth/2-115 && x<wall.x+wall.wallwidth/2-10 && y>wall.y-wall.wallheight/2 && y<wall.y+wall.wallheight/2+50){
+    if(a>=0){
+      xv=-abs(xv);
+    }
+    if(a<=0){
+      xv=abs(xv);
+    }
+    tint(random(255),random(255),random(255));
+  }
   
 
   
