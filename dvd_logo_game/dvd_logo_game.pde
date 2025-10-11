@@ -9,6 +9,7 @@ float xv = speed[(int)random(0,2)];
 float yv = speed[(int)random(0,2)];
 //ArrayList<Wall> walls = new ArrayList<>();
 Wall wall = new Wall(0,0, 150, 5);
+int points = 0;
 
 
 
@@ -58,24 +59,42 @@ void draw(){
   float delta = (1.0/60);
   y = y+yv*delta;
   x = x+xv*delta;
+  int inst = 0;
+  
+  
   if (x>=width-126){
     xv = -abs(xv);
     tint(random(255),random(255),random(255));
+    inst ++;
   }
   if (x<=0){
     xv = abs(xv);
     tint(random(255),random(255),random(255));
+    inst ++;
   }
   if (y>=height-66){
     yv = -abs(yv);
     tint(random(255),random(255),random(255));
+    inst ++;
   }
   if (y<=0){
     yv = abs(yv);
     tint(random(255),random(255),random(255));
+    inst ++;
   }
+  
+  if (inst > 1){
+    points+=100;
+  }
+  
+  
+  
+  
+  
+  
+  
   wall.draw();
-  text(xv, 80, 80);
+  text(points, 80, 80);
   float i = yv;
   float a = xv;
   if (wall.wallwidth>wall.wallheight && x>wall.x-wall.wallwidth/2-63 && x<wall.x+wall.wallwidth/2+63 && y>wall.y-wall.wallheight/2-55 && y<wall.y+wall.wallheight/2){
